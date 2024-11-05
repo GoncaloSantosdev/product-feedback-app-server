@@ -5,6 +5,8 @@ import express from "express";
 import cors from "cors";
 // db connection
 import connectDB from "./config/db-connection";
+// Routes
+import feedbackRoutes from "./routes/feedbackRoutes";
 
 // Initialize app
 const app = express();
@@ -15,6 +17,9 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+// Routes
+app.use("/api/feedbacks", feedbackRoutes);
 
 // Port
 const PORT = process.env.PORT || 3000;

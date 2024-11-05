@@ -9,7 +9,7 @@ const feedbackSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ["UI", "UX", "enhancement", "bug", "feature"],
+    enum: ["UI", "UX", "Enhancement", "Bug", "Feature"],
   },
   upvotes: {
     type: Number,
@@ -17,8 +17,8 @@ const feedbackSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    required: true,
     enum: ["suggestion", "planned", "in-progress", "live"],
+    default: "suggestion",
   },
   description: {
     type: String,
