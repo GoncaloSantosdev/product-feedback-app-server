@@ -67,14 +67,64 @@ const getFeedback = async (req: Request, res: Response): Promise<void> => {
 // @route   PUT /api/feedbacks/:id
 // @access  Private
 const updateFeedback = async (req: Request, res: Response): Promise<void> => {
-  res.json({ message: "Update feedback" });
+  try {
+    const feedbackId = req.params.id;
+
+    const feedback = await Feedback.findById(feedbackId);
+
+    if (!feedback) {
+      res.status(404).json({
+        status: "fail",
+        message: "Feedback not found",
+      });
+    }
+
+    const updatedFeedback = await Feedback.findByIdAndUpdate(
+      feedbackId,
+      {
+        title: req.body.title,
+        category: req.body.category,
+        status: req.body.status,
+        description: req.body.description,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "Feedback updated successfully",
+      updatedFeedback,
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 // @desc    Delete Feedback
 // @route   DELETE /api/feedbacks/:id
 // @access  Private
 const deleteFeedback = async (req: Request, res: Response): Promise<void> => {
-  res.json({ message: "Delete feedback" });
+  try {
+    const feedbackId = req.params.id;
+
+    const feedback = await Feedback.findById(feedbackId);
+
+    if (!feedback) {
+      res.status(404).json({
+        status: "fail",
+        message: "Feedback not found",
+      });
+    }
+
+    await Feedback.findByIdAndDelete(feedbackId);
+
+    res.status(200).json({
+      status: "success",
+      message: "Feedback deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 export {
