@@ -21,6 +21,32 @@ app.use(cors());
 // Routes
 app.use("/api/feedbacks", feedbackRoutes);
 
+// Router Not Found middleware
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Route not found" });
+});
+// Error handler middlewares
+app.use(
+  (
+    err: Error,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    const statusCode = (err as any).statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    const stack = err.stack;
+
+    console.error(err);
+
+    res.status(statusCode).json({
+      success: false,
+      message,
+      stack,
+    });
+  }
+);
+
 // Port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
