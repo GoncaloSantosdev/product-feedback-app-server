@@ -22,6 +22,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("API is working!");
+});
 app.use("/api/users", userRoutes);
 app.use("/api/feedbacks", feedbackRoutes);
 
