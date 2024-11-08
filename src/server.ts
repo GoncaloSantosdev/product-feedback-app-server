@@ -22,7 +22,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-// Routes
 app.use("/api/users", userRoutes);
 app.use("/api/feedbacks", feedbackRoutes);
 

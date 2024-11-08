@@ -2,11 +2,11 @@
     "version": 2,
     "builds": [
         {
-            "src": "server.ts",
+            "src": "src/server.ts",
             "use": "@vercel/node",
             "config": {
                 "includeFiles": [
-                    "dist/**"
+                    "src/**/*.ts"
                 ]
             }
         }
@@ -14,7 +14,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "server.ts"
+            "dest": "src/server.ts"
         }
     ]
 }
