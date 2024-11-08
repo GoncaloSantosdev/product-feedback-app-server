@@ -6,7 +6,11 @@ import cors from "cors";
 // db connection
 import connectDB from "./config/db-connection";
 // Routes
+import userRoutes from "./routes/userRoutes";
 import feedbackRoutes from "./routes/feedbackRoutes";
+// Import middlewares
+import notFoundMiddleware from "./middlewares/notFoundMiddleware"; // Import Not Found Middleware
+import errorHandlerMiddleware from "./middlewares/errorHandlerMiddleware"; // Import Error Handler Middleware
 
 // Initialize app
 const app = express();
@@ -19,33 +23,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // Routes
+app.use("/api/users", userRoutes);
 app.use("/api/feedbacks", feedbackRoutes);
 
-// Router Not Found middleware
-app.use((req, res, next) => {
-  res.status(404).json({ message: "Route not found" });
-});
-// Error handler middlewares
-app.use(
-  (
-    err: Error,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    const statusCode = (err as any).statusCode || 500;
-    const message = err.message || "Internal Server Error";
-    const stack = err.stack;
-
-    console.error(err);
-
-    res.status(statusCode).json({
-      success: false,
-      message,
-      stack,
-    });
-  }
-);
+// Use Not Found middleware
+app.use(notFoundMiddleware); // Use Not Found Middleware
+// Use Error handler middleware
+app.use(errorHandlerMiddleware); // Use Error Handler Middleware
 
 // Port
 const PORT = process.env.PORT || 3000;
